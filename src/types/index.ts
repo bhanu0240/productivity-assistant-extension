@@ -9,6 +9,7 @@ export interface TimerConfig {
   isAIGenerated: boolean;
   customMessage?: string;
   context?: string; // e.g., "coding", "reading"
+  tabId?: number;
   createdAt: number;
 }
 

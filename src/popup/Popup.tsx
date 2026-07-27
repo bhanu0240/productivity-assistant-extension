@@ -60,6 +60,8 @@ export const Popup: React.FC = () => {
   };
 
   const handleStartTimer = async () => {
+    const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
     chrome.runtime.sendMessage(
       {
         type: "START_TIMER",
@@ -67,6 +69,7 @@ export const Popup: React.FC = () => {
           duration,
           message: customMessage,
           context: "general",
+          tabId: activeTab?.id,
         },
       },
       (response) => {

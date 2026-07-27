@@ -22,6 +22,7 @@ import { TimerConfig } from "../types/index";
 interface ActiveTimer {
   timerId: string;
   alarmName: string;
+  tabId?: number;
 }
 
 const ACTIVE_TIMERS: Map<string, ActiveTimer> = new Map();
@@ -99,6 +100,7 @@ async function handleStartTimer(
     duration: number;
     message?: string;
     context?: string;
+    tabId?: number;
   },
   sendResponse: (response: any) => void
 ) {
@@ -112,6 +114,7 @@ async function handleStartTimer(
     message: payload.message || "",
     isAIGenerated: false,
     context: payload.context,
+    tabId: payload.tabId,
     createdAt: Date.now(),
   };
 
@@ -143,7 +146,7 @@ async function handleStartTimer(
   chrome.alarms.create(alarmName, { delayInMinutes: payload.duration });
 
   // Track active timer
-  ACTIVE_TIMERS.set(timerId, { timerId, alarmName });
+  ACTIVE_TIMERS.set(timerId, { timerId, alarmName, tabId: payload.tabId });
 
   sendResponse({
     success: true,
@@ -294,10 +297,11 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
         message: breakMessage,
       });
 
-      // Show a modal in the current active tab
       const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (activeTab?.id) {
-        chrome.tabs.sendMessage(activeTab.id, {
+      const tabToNotify = activeTab?.id;
+
+      if (tabToNotify) {
+        chrome.tabs.sendMessage(tabToNotify, {
           type: "SHOW_OVERLAY",
           payload: {
             message: breakMessage,
