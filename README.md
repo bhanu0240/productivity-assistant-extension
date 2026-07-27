@@ -37,6 +37,8 @@ A powerful productivity extension that helps users focus, take breaks, and gain 
 
 ## Privacy & Security
 
+📄 **Privacy policy:** [privacy.html](privacy.html)
+
 ✅ **Privacy-First Design**
 - All user data is stored **locally on your device** using Chrome's storage API
 - No telemetry, tracking, or analytics enabled by default
