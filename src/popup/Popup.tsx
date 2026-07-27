@@ -23,6 +23,7 @@ export const Popup: React.FC = () => {
   const [timers, setTimers] = useState<TimerConfig[]>([]);
   const [focusModeActive, setFocusModeActive] = useState(false);
   const [focusSite, setFocusSite] = useState("");
+  const [focusSiteDraft, setFocusSiteDraft] = useState("");
   const [duration, setDuration] = useState(25);
   const [customMessage, setCustomMessage] = useState("");
   const [usageStats, setUsageStats] = useState<any>({});
@@ -47,6 +48,12 @@ export const Popup: React.FC = () => {
     setTimers(activeTimers);
     setFocusModeActive(focusMode.enabled);
     setFocusSite(focusMode.focusSite);
+    setFocusSiteDraft((currentDraft) => {
+      if (!focusMode.focusSite) {
+        return currentDraft || "";
+      }
+      return currentDraft && currentDraft !== focusMode.focusSite ? currentDraft : focusMode.focusSite;
+    });
     setUsageStats(stats);
     setRestrictedSites(sites);
     setAiEnabled(settings.aiSettings.enabled);
@@ -83,14 +90,18 @@ export const Popup: React.FC = () => {
   };
 
   const handleToggleFocusMode = async () => {
+    const nextFocusSite = focusSiteDraft.trim();
+
     if (focusModeActive) {
       await disableFocusMode();
       chrome.runtime.sendMessage({ type: "TOGGLE_FOCUS_MODE", payload: { enabled: false } });
-    } else if (focusSite) {
-      await enableFocusMode(focusSite, duration);
+    } else if (nextFocusSite) {
+      await enableFocusMode(nextFocusSite, duration);
+      setFocusSite(nextFocusSite);
+      setFocusSiteDraft(nextFocusSite);
       chrome.runtime.sendMessage({
         type: "TOGGLE_FOCUS_MODE",
-        payload: { enabled: true, focusSite, duration },
+        payload: { enabled: true, focusSite: nextFocusSite, duration },
       });
     }
     loadData();
@@ -303,8 +314,8 @@ export const Popup: React.FC = () => {
                 <label style={styles.label}>Focus Site URL:</label>
                 <input
                   type="text"
-                  value={focusSite}
-                  onChange={(e) => setFocusSite(e.target.value)}
+                  value={focusSiteDraft}
+                  onChange={(e) => setFocusSiteDraft(e.target.value)}
                   placeholder="e.g., github.com"
                   style={styles.input}
                 />
@@ -335,7 +346,7 @@ export const Popup: React.FC = () => {
               {focusModeActive && (
                 <div style={styles.activeIndicator}>
                   <p>✅ Focus mode is active</p>
-                  <p style={styles.focusingSite}>Focusing on: {focusSite}</p>
+                  <p style={styles.focusingSite}>Focusing on: {focusSite || focusSiteDraft}</p>
                 </div>
               )}
             </div>

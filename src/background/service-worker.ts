@@ -253,8 +253,14 @@ async function handlePageLoaded(pageUrl: string | undefined, tabId: number | und
     });
   }
 
+  const isAllowedInFocusMode = focusMode.enabled && (
+    domain === focusMode.focusDomain ||
+    focusMode.allowedSites.includes(domain) ||
+    focusMode.allowedSites.includes(focusMode.focusDomain)
+  );
+
   // Check if focus mode is active and site is not allowed
-  if (focusMode.enabled && !focusMode.allowedSites.includes(domain)) {
+  if (focusMode.enabled && !isAllowedInFocusMode) {
     chrome.tabs.sendMessage(tabId, {
       type: "SHOW_OVERLAY",
       payload: {

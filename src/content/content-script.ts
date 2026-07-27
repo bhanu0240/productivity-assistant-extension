@@ -210,7 +210,12 @@ function handleFocusModeNavigation(focusMode: any) {
 
       if (link && link.href) {
         const linkDomain = extractDomain(link.href);
-        if (!focusMode.allowedSites.includes(linkDomain)) {
+        const isAllowedInFocusMode =
+          linkDomain === focusMode.focusDomain ||
+          focusMode.allowedSites.includes(linkDomain) ||
+          focusMode.allowedSites.includes(focusMode.focusDomain);
+
+        if (!isAllowedInFocusMode) {
           event.preventDefault();
           event.stopPropagation();
 
