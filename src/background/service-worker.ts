@@ -278,18 +278,34 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     const timer = timers.find((t) => t.id === timerId);
 
     if (timer) {
+      const breakMessage = timer.message || "Time for a break! Step away and recharge.";
+
       // Show notification
       chrome.notifications.create(`break_${timerId}`, {
         type: "basic",
         iconUrl: "public/icons/icon-128.png",
         title: "Break Time!",
-        message: timer.message || "Time for a break! Step away and recharge.",
+        message: breakMessage,
       });
+
+      // Show a modal in the current active tab
+      const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (activeTab?.id) {
+        chrome.tabs.sendMessage(activeTab.id, {
+          type: "SHOW_OVERLAY",
+          payload: {
+            message: breakMessage,
+            actionType: "timer",
+          },
+        }).catch(() => {
+          // Ignore if the tab does not have the content script loaded
+        });
+      }
 
       // Broadcast to all tabs
       broadcastToAllTabs({
         type: "TIMER_COMPLETED",
-        payload: { timerId, message: timer.message },
+        payload: { timerId, message: breakMessage },
       });
     }
 

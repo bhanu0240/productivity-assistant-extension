@@ -96,7 +96,13 @@ function showOverlay(payload: { message: string; actionType: string; focusSite?:
   `;
 
   const title = document.createElement("h2");
-  title.textContent = payload.actionType === "focusMode" ? "🎯 Focus Mode Active" : "⛔ Site Restricted";
+  const titleText =
+    payload.actionType === "focusMode"
+      ? "🎯 Focus Mode Active"
+      : payload.actionType === "timer"
+      ? "☕ Break Time!"
+      : "⛔ Site Restricted";
+  title.textContent = titleText;
   title.style.cssText = `
     margin: 0 0 15px 0;
     font-size: 24px;
