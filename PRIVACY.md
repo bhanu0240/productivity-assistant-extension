@@ -1,209 +1,58 @@
-# Privacy Policy - Productivity Assistant
+# Privacy Policy: Productivity Assistant
 
-**Version 1.0** | Last Updated: 2024
+_Last updated: November 24, 2026_
 
-## Our Privacy Commitment
+**Productivity Assistant** is a browser extension that helps you stay focused. It includes break timers, a focus mode, site blocking, and statistics on time spent per website. This policy explains what data the extension handles, why, and where that data goes.
 
-The Productivity Assistant extension is built with **privacy as a core principle**. We believe that productivity tools should not require surveillance in return. This extension respects your data and your right to privacy.
+## Data the extension handles
 
-## Key Privacy Principles
+- **Website usage:** to record time spent per site, the extension reads the address of the active tab. It keeps only the domain name (for example `github.com`), the time spent, the time of your last visit, and a visit count. Full URLs, page titles and page content are not stored.
+- **Focus mode:** the address of the tab you choose as your focus site, the allowed sites, and the session end time.
+- **Timers:** durations, labels and reminder messages you enter.
+- **Blocked sites:** the domains you add to your block list.
+- **Settings:** your preferences and, if you turn on AI features, your AI provider, model name and API key.
 
-### 1. **Local-First Architecture**
-- ✅ All user data is stored **exclusively on your device** using Chrome's `storage.local` API
-- ✅ No data is sent to external servers without your explicit consent
-- ✅ The extension does not transmit any data to its developers
-- ✅ Your browsing habits stay on your machine
+The extension does not collect your name, email address, passwords, payment information, location, form inputs, cookies or page content.
 
-### 2. **No Tracking or Analytics**
-- ✅ No telemetry collection (we don't track how you use the extension)
-- ✅ No Google Analytics or third-party tracking
-- ✅ No event logging that leaves your device
-- ✅ No behavioral profiling
+## How the data is used
 
-### 3. **Optional AI Features**
-- ✅ AI integration is **completely optional**
-- ✅ If you don't enable AI, nothing leaves your device
-- ✅ When enabled, only **aggregated browsing statistics** (e.g., "spent 2 hours on GitHub") are sent to your chosen AI provider
-- ✅ Raw URLs and detailed browsing history are **never sent** to AI providers
-- ✅ API keys are stored locally and sent directly to the API provider (OpenAI or Azure)
+The data is used only to provide the extension's features: break reminders, enforcing focus mode, blocking the sites you choose, and showing your usage statistics in the popup. It is not used for advertising, profiling or any other purpose.
 
-### 4. **Data You Control**
-- ✅ Export all your data anytime as a JSON file
-- ✅ Delete all data with one click (irreversible)
-- ✅ Pause data collection anytime (disable the extension)
-- ✅ Configure exactly what data is collected
+## Where the data is stored
 
-## Data Collection Details
+All data is stored on your device using the browser's extension storage (`chrome.storage.local`). It is never sent to the developer. The extension has no analytics, telemetry, or tracking.
 
-### What Data is Collected Locally
+## Optional AI features (off by default)
 
-**Site Usage Tracking:**
-```
-{
-  domain: "github.com",
-  totalTime: 7200000,  // milliseconds
-  lastVisited: 1234567890,
-  sessionCount: 5
-}
-```
-- Only the domain name (not URLs)
-- Time spent in milliseconds
-- Last visit timestamp
-- Session count
+AI features run only after you turn them on in Settings, agree to the prompt that explains what is sent, and enter your own API key. When turned on, the extension sends data over HTTPS directly to the provider you choose, **OpenAI** or **Microsoft Azure OpenAI**:
 
-**Timer Settings:**
-```
-{
-  duration: 25,
-  message: "Take a break!",
-  context: "coding"
-}
-```
-- Duration and custom messages you set
-- Work context you provide
-- No data about what you were working on
+- **Break messages** (when you start a timer without a message): hours spent browsing today, the time of day, and the timer label you entered, if any.
+- **Usage insights** (only when you click the button in the popup): your top 5 domains and the minutes spent on each.
 
-**Extension Settings:**
-- Blocked sites list (domains only)
-- Focus mode preferences
-- AI provider settings
-- Notification preferences
+Full URLs, page titles and page content are never sent. Your API key is sent only to the provider you choose, for authentication. That provider's privacy policy governs the data it receives: [OpenAI](https://openai.com/policies/privacy-policy), [Microsoft](https://privacy.microsoft.com/privacystatement). You can turn AI features off at any time in Settings.
 
-### What Data is NOT Collected
+## Sharing
 
-❌ Page URLs or titles (only domain names)
-❌ Search queries or form submissions
-❌ Passwords or sensitive information
-❌ Email addresses or personal identifiers
-❌ Location data
-❌ Device identifiers (unless you enable AI and choose to send)
-❌ Browsing history
-❌ Cache or cookies
+We do not sell user data. We do not transfer it to data brokers or advertising platforms, use it for personalized ads, or use it to decide creditworthiness or for lending. The only transfer is the optional AI transfer described above, which you start yourself.
 
-## AI Data Sharing (Optional, Opt-In)
+## Chrome Web Store User Data Policy
 
-**IF and ONLY IF you enable AI features:**
+The use of information received by Productivity Assistant adheres to the [Chrome Web Store User Data Policy](https://developer.chrome.com/docs/webstore/program-policies/), including the Limited Use requirements.
 
-1. **What gets sent:**
-   - Aggregated domain statistics (e.g., "5 hours on github.com")
-   - Context you provide (e.g., "I was coding")
-   - Time-of-day information (for personalization)
+## Retention and your controls
 
-2. **What does NOT get sent:**
-   - Specific URLs you visited
-   - Full browsing history
-   - Personal identifiers
-   - Location or device info
+- Data stays on your device until you delete it.
+- **Settings → Data** lets you export your data as a JSON file or delete all of it.
+- Uninstalling the extension removes all of its stored data from your browser.
 
-3. **Where it goes:**
-   - OpenAI API (if you choose OpenAI): https://platform.openai.com/privacy
-   - Azure AI API (if you choose Azure): https://azure.microsoft.com/en-us/support/legal/
+## Children
 
-4. **Your API Key:**
-   - Stored **only** in your browser's local storage
-   - Sent **only** to the API provider you chose
-   - Never shared with extension developers
+The extension is not directed at children under 13 and does not knowingly collect their personal information.
 
-## Permissions Explained
+## Changes to this policy
 
-### Why We Request Each Permission
+If we change how data is handled, we will update this page and its date. Material changes will also be explained in the extension before they take effect.
 
-| Permission | Why We Need It | Privacy Impact |
-|-----------|---|---|
-| `storage` | Save your settings locally | ✅ Stays on your device |
-| `alarms` | Manage break timers | ✅ Timing data stays local |
-| `tabs` | Track which sites you visit | ✅ Only domain names tracked |
-| `webNavigation` | Enforce focus mode & restrictions | ✅ Enforcement is local |
-| `scripting` | Show overlay warnings | ✅ UI injected locally |
-| `declarativeNetRequest` | Block restricted sites | ✅ Blocking happens locally |
-| `notifications` | Show break reminders | ✅ Notifications are local |
+## Contact
 
-## How Your Data is Protected
-
-1. **Encryption**: Chrome's storage API uses your operating system's encrypted storage
-2. **Local-Only**: Data never leaves your device unless you explicitly send it to AI providers
-3. **Clear Permissions**: Browser permissions are specific and necessary
-4. **No Hidden Behavior**: Code is transparent and can be reviewed
-5. **User Control**: You can export, backup, or delete data anytime
-
-## Compliance
-
-- ✅ **GDPR**: No personal data collection; data stored locally
-- ✅ **CCPA**: Your data belongs to you; you can export/delete anytime
-- ✅ **Chrome Web Store**: Compliant with all policies; transparent about data usage
-
-## Open Source & Transparency
-
-This extension is open-source. You can:
-- ✅ Review all source code
-- ✅ Audit for privacy leaks
-- ✅ Build from source yourself
-- ✅ Contribute improvements
-- ✅ Fork for personal use
-
-## Data Retention
-
-- **While Extension is Active**: Data is stored in Chrome local storage
-- **When Extension is Disabled/Removed**: Data remains in storage until you clear it
-- **AI Data**: Sent only when you request insights; retention depends on your AI provider's policy
-
-## Third-Party Services
-
-This extension may use:
-- **OpenAI API** (if you choose OpenAI for AI features)
-- **Azure OpenAI API** (if you choose Azure for AI features)
-
-These are optional. Review their privacy policies:
-- OpenAI: https://openai.com/privacy-policy
-- Azure: https://azure.microsoft.com/en-us/support/legal/
-
-## Manifest V3 Safety
-
-Chrome Extension Manifest V3 provides:
-- ✅ Restricted background script capabilities
-- ✅ Content Security Policy (CSP) enforcement
-- ✅ Permission-based access to Chrome APIs
-- ✅ User-controlled notifications
-
-## Reporting Privacy Issues
-
-If you find a privacy concern:
-1. Don't share privately on GitHub/social media
-2. Email security report with details
-3. We'll address and credit you appropriately
-
-## Changes to This Policy
-
-We may update this policy to reflect:
-- New features that involve data handling
-- Changes in Chrome's privacy model
-- Legal requirements
-
-We will notify users of material changes before they take effect.
-
-## FAQ
-
-**Q: Is my browsing data sold?**
-A: No. We don't sell, trade, or share any data.
-
-**Q: Can you see my browsing history?**
-A: No. We're a browser extension - we only see what you allow. No telemetry connects to us.
-
-**Q: What if I enable AI features?**
-A: Only aggregated statistics are sent to your AI provider. Raw URLs and sensitive data stay local.
-
-**Q: Can I trust the extension?**
-A: Yes! The code is open-source and reviewable. Anyone can audit it.
-
-**Q: What happens when I uninstall?**
-A: Your data stays in Chrome's storage. Reinstall anytime to access it, or manually clear it.
-
-**Q: Does the extension work without internet?**
-A: Yes, fully! AI features require internet, but core features (timers, focus mode, blocking) work offline.
-
----
-
-**Last updated**: 2024
-**Contact**: For privacy concerns, check the extension's support channels
-
-We believe privacy is not a feature - it's a fundamental right. 🔒
+Questions or concerns about privacy: [bhanureddy0240@gmail.com](mailto:bhanureddy0240@gmail.com)

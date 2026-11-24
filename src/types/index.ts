@@ -4,7 +4,10 @@
 
 export interface TimerConfig {
   id: string;
-  duration: number; // in minutes
+  duration: number; // in minutes (kept for backwards compatibility)
+  durationSeconds: number; // total length of the timer
+  endsAt: number; // epoch ms when the timer fires (meaningless while paused)
+  pausedRemainingMs?: number; // set while the timer is paused
   message: string;
   isAIGenerated: boolean;
   customMessage?: string;
@@ -44,7 +47,12 @@ export interface FocusModeConfig {
   focusSite: string;
   focusDomain: string;
   startTime: number;
-  duration: number; // in minutes
+  duration: number; // in minutes (kept for backwards compatibility)
+  durationSeconds: number;
+  endsAt: number; // epoch ms when the session ends
+  tabId?: number; // the tab the user is locked to
+  windowId?: number;
+  tabTitle?: string;
   allowedSites: string[];
 }
 
@@ -77,6 +85,6 @@ export interface AIResponse {
 }
 
 export interface ContentScriptMessage {
-  type: "SHOW_OVERLAY" | "HIDE_OVERLAY" | "ENABLE_FOCUS_MODE" | "DISABLE_FOCUS_MODE";
+  type: "SHOW_OVERLAY" | "HIDE_OVERLAY" | "FOCUS_TOAST" | "FOCUS_LEAVE_PROMPT" | "FOCUS_LEAVE_PROMPT_CLOSE";
   payload?: any;
 }

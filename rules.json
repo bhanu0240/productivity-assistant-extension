@@ -1,16 +1,1 @@
-[
-  {
-    "id": 1,
-    "priority": 1,
-    "action": {
-      "type": "redirect",
-      "redirect": {
-        "url": "about:blank"
-      }
-    },
-    "condition": {
-      "urlFilter": "*facebook.com*",
-      "isUrlFilterCaseSensitive": false
-    }
-  }
-]
+[]

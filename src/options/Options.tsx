@@ -7,6 +7,18 @@ import { getSettings, saveSettings, clearAllData, getAISettings, updateAISetting
 import { testAIConnection } from "../utils/aiHelper";
 import { AISettings, ExtensionSettings } from "../types/index";
 
+const AI_CONSENT_TEXT = [
+  "Turn on AI features?",
+  "",
+  "The extension will send data to the AI provider you choose (OpenAI or Azure OpenAI), using your API key:",
+  "- Break messages: hours spent browsing, the time of day, and your timer label",
+  "- Insights (when you click the button): your top 5 domains and the minutes spent on each",
+  "",
+  "Full URLs, page titles and page content are never sent. The provider's privacy policy applies to this data.",
+  "",
+  "Click OK to agree and turn on AI features.",
+].join("\n");
+
 export const OptionsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"ai" | "privacy" | "data">("ai");
   const [aiSettings, setAiSettings] = useState<AISettings>({
@@ -88,15 +100,23 @@ export const OptionsPage: React.FC = () => {
 
             <div style={styles.section}>
               <p style={styles.description}>
-                Enable AI to get motivational break messages and usage insights. Your API key is stored locally and never shared.
+                AI features are optional and off by default. When you turn them on, the extension sends data to the provider you choose (OpenAI or Azure OpenAI), using your own API key:
               </p>
+              <ul style={styles.privacyList}>
+                <li><strong>When you start a break timer with no message:</strong> hours spent browsing today, the time of day, and the timer label you typed (if any).</li>
+                <li><strong>When you click "Generate insights" in the popup:</strong> your top 5 website domains and the minutes spent on each.</li>
+                <li>Full URLs, page titles and page content are never sent. Your API key is stored only in this browser and sent only to the provider you choose. The provider's own privacy policy applies to the data it receives.</li>
+              </ul>
 
               <div style={styles.formGroup}>
                 <label style={styles.label}>
                   <input
                     type="checkbox"
                     checked={aiSettings.enabled}
-                    onChange={(e) => setAiSettings({ ...aiSettings, enabled: e.target.checked })}
+                    onChange={(e) => {
+                      if (e.target.checked && !confirm(AI_CONSENT_TEXT)) return;
+                      setAiSettings({ ...aiSettings, enabled: e.target.checked });
+                    }}
                   />
                   Enable AI Features
                 </label>
@@ -201,24 +221,25 @@ export const OptionsPage: React.FC = () => {
 
               <h3 style={styles.subtitle}>AI Integration</h3>
               <p style={styles.description}>
-                If you enable AI features, aggregated browsing statistics may be sent to your chosen AI provider (OpenAI or Azure) to generate insights and motivational messages. This is done only with your explicit consent.
+                Only if you turn on AI features and agree to the prompt, the extension sends limited data to the provider you choose (OpenAI or Azure OpenAI): hours spent browsing, the time of day and your timer label for break messages, and your top 5 domains with minutes spent when you ask for insights. Full URLs, page titles and page content are never sent.
               </p>
 
               <h3 style={styles.subtitle}>Permissions Explained</h3>
               <ul style={styles.privacyList}>
                 <li><strong>storage:</strong> Save your settings locally</li>
                 <li><strong>alarms:</strong> Manage break timers</li>
-                <li><strong>tabs:</strong> Track which sites you visit</li>
+                <li><strong>tabs:</strong> Detect the active tab's site to record time spent, and manage your focus tab</li>
                 <li><strong>webNavigation:</strong> Enforce focus mode</li>
                 <li><strong>declarativeNetRequest:</strong> Block restricted sites</li>
-                <li><strong>scripting:</strong> Show overlay warnings</li>
+                <li><strong>notifications:</strong> Show break reminders</li>
+                <li><strong>Access to all websites:</strong> Detect the active site to record time spent, and show focus-mode and blocking screens</li>
               </ul>
             </div>
 
             <div style={styles.warningBox}>
               <p style={styles.warningTitle}>🔒 Privacy Commitment</p>
               <p style={styles.description}>
-                This extension respects your privacy. We do not track, sell, or share your data. The extension is open-source and can be audited by anyone. No telemetry or analytics are enabled by default.
+                We do not sell your data, use it for advertising, or send it to the developer. The extension has no analytics or telemetry. Data leaves your device only through the optional AI features described above.
               </p>
             </div>
           </div>

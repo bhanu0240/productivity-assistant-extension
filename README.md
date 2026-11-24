@@ -1,6 +1,6 @@
 # Productivity Assistant - Chrome Extension (Manifest V3)
 
-A powerful productivity extension that helps users focus, take breaks, and gain AI-powered insights into their browsing habits.
+A powerful productivity extension that helps users focus, take breaks, and understand their browsing habits, with optional AI insights using your own API key.
 
 ## Features
 
@@ -13,7 +13,7 @@ A powerful productivity extension that helps users focus, take breaks, and gain 
 ### 📊 Usage Statistics
 - Automatically track time spent on each website
 - Beautiful dashboard showing site-wise usage statistics
-- AI-powered insights that analyze your browsing patterns (e.g., "Your peak productivity is between 9–11 AM. Try scheduling deep work then.")
+- Optional AI insights (OpenAI/Azure, your own API key) that analyze your top sites (e.g., "Most of your time went to video sites; try blocking them during focus sessions.")
 - Export statistics for external analysis
 
 ### 🚫 Site Restrictions
@@ -51,13 +51,11 @@ A powerful productivity extension that helps users focus, take breaks, and gain 
 - `tabs` - Track which sites you visit
 - `webNavigation` - Enforce focus mode
 - `declarativeNetRequest` - Block restricted sites
-- `scripting` - Show overlay warnings
 
 ✅ **Data Control**
 - Export all your data as JSON anytime
 - Clear all data with one click
 - No third-party trackers or ads
-- Open-source and auditable
 
 ## Installation & Setup
 
@@ -96,9 +94,11 @@ A powerful productivity extension that helps users focus, take breaks, and gain 
 
 1. Click the extension icon in your toolbar
 2. Go to the "Timer" tab
-3. Set duration (1-120 minutes)
+3. Enter hours, minutes, and seconds directly, or adjust the clock dial and choose a preset (30 seconds to 12 hours)
 4. (Optional) Enter a custom break message or leave blank for AI-generated
 5. Click "Start Timer"
+
+When the timer completes, the extension shows a browser notification and a dismissible modal on the active page with your break message.
 
 **AI-Generated Messages Example:**
 - "You've coded for 2 hours straight — great progress! Take 5 minutes to recharge."
@@ -403,11 +403,10 @@ This extension is **privacy-first and data-respecting**:
 - ✅ No third-party data sharing
 - ✅ No ads or advertising networks
 - ✅ Permissions clearly explained and justified
-- ✅ Open source and auditable
 - ✅ AI features are opt-in
 
 **Data Usage:**
-- If you enable AI features and provide an API key, aggregated browsing statistics are sent to your chosen AI provider (OpenAI or Azure) **only to generate insights**. No raw browsing history is shared.
+- If you turn on AI features and agree to the consent prompt, limited data is sent to your chosen provider (OpenAI or Azure): hours browsed, time of day and your timer label for break messages, and your top 5 domains with minutes when you click "Generate insights". Full URLs and page content are never sent.
 - All API keys are stored locally and never sent anywhere except to your chosen AI provider.
 - You can disable AI features anytime to keep all data completely local.
 

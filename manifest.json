@@ -1,16 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Productivity Assistant",
-  "version": "1.0.0",
-  "description": "AI-powered focus timer, usage statistics, and productivity insights. All data is stored locally on your device.",
+  "version": "2.0.0",
+  "description": "Focus timer, site blocker and usage stats kept on your device. Optional AI break messages and insights with your own API key.",
   "permissions": [
     "storage",
     "alarms",
     "tabs",
     "notifications",
     "webNavigation",
-    "declarativeNetRequest",
-    "scripting"
+    "declarativeNetRequest"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -46,6 +45,12 @@
       }
     ]
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html", "blocked/blocked.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "icons": {
     "16": "public/icons/icon-16.png",
     "48": "public/icons/icon-48.png",

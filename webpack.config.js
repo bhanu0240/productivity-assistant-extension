@@ -13,6 +13,7 @@ module.exports = (env, argv) => {
         "content/content-script": "./src/content/content-script.ts",
         "popup/popup": "./src/popup/index.tsx",
         "options/options": "./src/options/index.tsx",
+        "blocked/blocked": "./src/blocked/index.ts",
       },
       output: {
         path: path.resolve(__dirname, "dist"),
@@ -38,6 +39,7 @@ module.exports = (env, argv) => {
             { from: "manifest.json", to: "manifest.json" },
             { from: "popup.html", to: "popup.html" },
             { from: "options.html", to: "options.html" },
+            { from: "blocked.html", to: "blocked.html" },
             { from: "rules.json", to: "rules.json" },
             { from: "public/icons", to: "public/icons" },
           ],

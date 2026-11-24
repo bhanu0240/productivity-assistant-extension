@@ -13,6 +13,8 @@ const DEFAULT_SETTINGS: ExtensionSettings = {
     focusDomain: "",
     startTime: 0,
     duration: 25,
+    durationSeconds: 25 * 60,
+    endsAt: 0,
     allowedSites: [],
   },
   aiSettings: {
@@ -34,7 +36,11 @@ export async function getSettings(): Promise<ExtensionSettings> {
   return new Promise((resolve) => {
     chrome.storage.local.get("settings", (result) => {
       if (result.settings) {
-        resolve({ ...DEFAULT_SETTINGS, ...result.settings });
+        resolve({
+          ...DEFAULT_SETTINGS,
+          ...result.settings,
+          focusMode: { ...DEFAULT_SETTINGS.focusMode, ...(result.settings.focusMode || {}) },
+        });
       } else {
         resolve(DEFAULT_SETTINGS);
       }
@@ -114,28 +120,12 @@ export async function isRestrictedDomain(domain: string): Promise<boolean> {
 }
 
 /**
- * Enable focus mode
- */
-export async function enableFocusMode(focusSite: string, duration: number, allowedSites: string[] = []): Promise<void> {
-  const settings = await getSettings();
-  const focusDomain = extractDomain(focusSite);
-  settings.focusMode = {
-    enabled: true,
-    focusSite,
-    focusDomain,
-    startTime: Date.now(),
-    duration,
-    allowedSites: [focusDomain, ...allowedSites],
-  };
-  await saveSettings(settings);
-}
-
-/**
  * Disable focus mode
  */
 export async function disableFocusMode(): Promise<void> {
   const settings = await getSettings();
   settings.focusMode.enabled = false;
+  settings.focusMode.endsAt = 0;
   await saveSettings(settings);
 }
 

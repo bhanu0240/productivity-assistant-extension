@@ -277,7 +277,7 @@ manifest.json
 ## 📝 Configuration & Setup Files
 
 ### manifest.json
-- **permissions**: storage, alarms, tabs, webNavigation, declarativeNetRequest, scripting
+- **permissions**: storage, alarms, tabs, webNavigation, notifications, declarativeNetRequest
 - **host_permissions**: <all_urls>
 - **service_worker**: src/background/service-worker.js
 - **popup**: popup.html
@@ -314,7 +314,6 @@ manifest.json
 | `alarms` | service-worker.ts | Timer scheduling |
 | `tabs` | service-worker.ts | Tab tracking |
 | `webNavigation` | service-worker.ts | Focus mode enforcement |
-| `scripting` | content-script.ts | Overlay injection |
 | `notifications` | service-worker.ts | Break reminders |
 
 ---
